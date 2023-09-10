@@ -26,7 +26,7 @@
  
 # IHA RENTAL APP GIF
 
-#### Kiralamaya müsait olan İHA Ekranı 
+#### Sistemde kayıtlı İHA'ların Listeleme Ekranı 
 ![newIHAadd](https://github.com/GamzeEbru/rentalProject/blob/main/static/img/addNewIha.gif)
 
 #### İHA Blgileri Düzenleme - Silme Ekranı 
