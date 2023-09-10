@@ -3,6 +3,8 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 
 
+
+
 class IHA(models.Model):
     marka = models.CharField(max_length=100)
     model = models.CharField(max_length=100)

@@ -1,85 +1,110 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- İsterseniz başlık ve stil ekleyebilirsiniz -->
-        <title>Kayıt Ol</title>
-        <style>
-            /* Sayfa içeriğini ortala */
-            body {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                min-height: 100vh;
-            }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayıt Ol</title>
+    <style>
+        /* Genel sayfa stilleri */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
 
-            /* Formu stilize et */
-            form {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 20px; /* Giriş alanları arasındaki boşluğu ayarlar */
-                max-width: 400px; /* Formun en fazla genişliği */
-                padding: 20px;
-                border: 1px solid #ccc;
-                border-radius: 10px;
-            }
+        /* Form stilleri */
+        .registration-form {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 400px;
+            text-align: center;
+        }
 
-            /* Input alanlarını büyüt ve oranlı tut */
-            label, input {
-                font-size: 18px;
-                width: 100%;
-                margin-bottom: 10px;
-            }
+        .registration-form h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
 
-            /* Düğmeyi stilize et */
-            button {
-                background-color: green;
-                color: white;
-                border: none;
-                padding: 10px 20px;
-                cursor: pointer;
-                border-radius: 5px;
-                font-size: 18px;
-            }
+        .registration-form label {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
 
-            /* Hata mesajlarını stilize et */
-            .error-message {
-                color: red;
-            }
-        </style>
-    </head>
-    <body>
+        .registration-form input[type="text"],
+        .registration-form input[type="email"],
+        .registration-form input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .registration-form button {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+
+        /* Hata mesajları stilleri */
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Bağlantı stilleri */
+        .login-link {
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .login-link a {
+            color: blue;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="registration-form">
         <h1>Kayıt Ol</h1>
 
-        <!-- Kayıt formunu oluştur -->
         <form method="POST" action="{% url 'register' %}">
             {% csrf_token %}
-            <div>
-                <label id="id_username">Kullanıcı Adı:</label>
-                <label for="id_username"></label><input type="text" id="id_username" name="username" >
-            </div>
-            <div>
-                <label id="id_email">E-Posta:</label>
-                <label for="id_email"></label><input type="email" id="id_email" name="email" >
-            </div>
-            <div>
-                <label id="id_password1">Parola:</label>
-                <label for="id_password1"></label><input type="password" id="id_password1" name="password1" >
-            </div>
-            <div>
-                <label id="id_password2">Parolayı Onayla:</label>
-                <label for="id_password2"></label><input type="password" id="id_password2" name="password2" >
-            </div>
-            <button type="submit">Kayıt Ol</button>
+            <label for="id_username">Kullanıcı Adı:</label>
+            <input type="text" id="id_username" name="username" required>
+
+            <label for="id_email">E-Posta:</label>
+            <input type="email" id="id_email" name="email" required>
+
+            <label for="id_password1">Parola:</label>
+            <input type="password" id="id_password1" name="password1" required>
+
+            <label for="id_password2">Parolayı Onayla:</label>
+            <input type="password" id="id_password2" name="password2" required>
+
+            <button type="submit" id="submit-button">Kayıt Ol</button>
         </form>
 
-        <!-- Zaten bir hesabınız varsa giriş sayfasına yönlendirme bağlantısı -->
-        <p>Zaten bir hesabınız var mı? <a href="{% url 'login' %}">Giriş Yap</a></p>
-
-        <!-- Form hataları için mesajları gösterme -->
         {% if form.errors %}
             <div class="error-message">
                 <strong>Formda hatalar var:</strong>
@@ -92,5 +117,11 @@
                 </ul>
             </div>
         {% endif %}
-    </body>
-    </html>
+
+        <div class="login-link">
+            Zaten bir hesabınız var mı? <a href="{% url 'login' %}">Giriş Yap</a>
+        </div>
+    </div>
+
+</body>
+</html>

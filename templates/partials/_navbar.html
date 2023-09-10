@@ -5,7 +5,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giriş Yap</title>
 
     <style>
         /* Navbar ana stil */
@@ -65,7 +64,7 @@
     <nav class="navbar">
         <div class="navbar-container">
             <div class="navbar-left">
-                <a href="{% url 'iha-lists' %}" class="navbar-logo">IHA Listesi</a>
+                <a href="{% url 'iha-lists' %}" class="navbar-logo">IHA Rental</a>
             </div>
             <div class="navbar-right">
                 {% if user.is_authenticated %}
