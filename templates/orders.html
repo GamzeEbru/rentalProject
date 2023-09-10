@@ -41,7 +41,8 @@
                     <th>Kiralama Bitiş</th>
                     <th>İHA Adı</th>
                     <th>İHA Modeli</th>
-                    <th>İşlemler</th>
+                    <th>İptal</th>
+                    <th>Düzenle</th>
 
                     <!-- Diğer sipariş bilgilerini buraya ekleyebilirsiniz -->
                 </tr>
@@ -56,6 +57,10 @@
 
                         <td>
                             <button class="cancel-button trigger-modal" data-siparis-id="{{ siparis.id }}">Kiralama İptal</button>
+                        </td>
+
+                        <td>
+                            <button class="edit-button trigger-modal" data-siparis-id="{{ siparis.id }}">Kiralama Düzenleme</button>
                         </td>
 
                     </tr>
@@ -77,7 +82,7 @@
         }
     });
 
-    // "Kiralama İptal" düğmesine tıklama işlemi
+    // "Kiralama İptal" butonuna tıklama
     $('#siparisler-table tbody').on('click', '.cancel-button', function () {
         var $button = $(this);
         var siparisId = $button.data('siparis-id');
@@ -119,6 +124,14 @@
     });
         });
 
+        //"kiralama düzenleme" butonuna tıklama
+    $('#siparisler-table tbody').on('click', '.edit-button', function () {
+            var $button = $(this);
+            var siparisId = $button.data('siparis-id');
+
+            // Düzenleme işlemine yönlendirme
+            window.location.href = '/edit_rental/' + siparisId + '/';
+        });
 
     </script>
 </body>
