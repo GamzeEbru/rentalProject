@@ -1,7 +1,7 @@
 # IHA RENTAL APP
 
 ### Giriş yapan kullanıcının siparişlerini takip ekranı 
-[![N|Kiralamalarım](https://github.com/GamzeEbru/rentalProject/blob/main/static/img/Kiralamalar%C4%B1m.png)](https://github.com/GamzeEbru/rentalProject/blob/main/static/img/Kiralamalar%C4%B1m.png)
+[![N|Kiralamalarım](https://github.com/GamzeEbru/rentalProject/blob/main/static/img/Listrentals.png)](https://github.com/GamzeEbru/rentalProject/blob/main/static/img/Listrentals.png)
 
 #### Müşteri olarak giriş yapılınca sadece kiralama butonu aktif
 
