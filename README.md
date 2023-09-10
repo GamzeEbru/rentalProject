@@ -1,11 +1,18 @@
 # IHA RENTAL APP
 
+### Giriş yapan kullanıcının siparişlerini takip ekranı 
 [![N|Kiralamalarım](https://github.com/GamzeEbru/rentalProject/blob/main/static/img/Kiralamalar%C4%B1m.png)](https://github.com/GamzeEbru/rentalProject/blob/main/static/img/Kiralamalar%C4%B1m.png)
 
-#### Şu an müsait olmayan kirada olan İHA Ekranı 
+#### Müşteri olarak giriş yapılınca sadece kiralama butonu aktif
+
+[![iharentaled](https://github.com/GamzeEbru/rentalProject/blob/main/static/img/customer%C4%B0haDetails.png)](https://github.com/GamzeEbru/rentalProject/blob/main/static/img/customer%C4%B0haDetails.png)
+
+[![iharentaled](https://github.com/GamzeEbru/rentalProject/blob/main/static/img/ihadetailcustomer.png)](https://github.com/GamzeEbru/rentalProject/blob/main/static/img/ihadetailcustomer.png)
+
+
+#### SuperUser olarak giriş yapılınca edit ve delete tuşları aktif
 [![iharentaled](https://github.com/GamzeEbru/rentalProject/blob/main/static/img/ihaDetaylari_kirali.png)](https://github.com/GamzeEbru/rentalProject/blob/main/static/img/ihaDetaylari_kirali.png)
- 
-#### Kiralamaya müsait olan İHA Ekranı 
+
 ![iharentalonline](https://github.com/GamzeEbru/rentalProject/blob/main/static/img/ihaDetaylari_m%C3%BCsait.png)
 
 #### İHA Blgileri Düzenleme Ekranı 
@@ -30,4 +37,3 @@
  
 #### Login Page
 [![LoginPage](https://github.com/GamzeEbru/rentalProject/blob/main/static/img/loginPage.gif)](https://github.com/GamzeEbru/rentalProject/blob/main/static/img/loginPage.gif)
- 
