@@ -1,15 +1,14 @@
 from datetime import datetime
-
+from django.contrib.auth import login
 from django.contrib import messages
 from rest_framework import viewsets
 from .forms import IHAEkleForm, IHAEditForm, KiralamaForm
 from .models import IHA, Kiralama, KiralamaGecmisi
 from .serializers import IHASerializer, KiralamaSerializer
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from .models import IHA
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import (
     authenticate,
     login,
@@ -67,25 +66,6 @@ def iha_rental(request, iha_id):
 
     return render(request, 'rental.html', {'iha_id': iha_id})
 
-#kiralama iptali durumunda ve gerçekleşen kiralamaların kayıtları tutulacak
-def finish_rental(request, kiralama_id):
-    kiralama = get_object_or_404(Kiralama, id=kiralama_id)
-
-    if not kiralama.iptal_edildi:
-        kiralama.iptal_edildi = True
-        kiralama.save()
-
-        # Kiralama geçmişi oluştur
-        KiralamaGecmisi.objects.create(
-            iha=kiralama.iha,
-            kiralama_baslangic=kiralama.kiralama_baslangic,
-            kiralama_bitis=kiralama.kiralama_bitis,
-            kiralayan=kiralama.kiralayan,
-            iptal_edildi=True,
-            gerceklesti=False
-        )
-
-    return redirect('kiralamalar')
 
 @login_required(login_url='login')
 def iha_lists(request):
@@ -93,11 +73,18 @@ def iha_lists(request):
     iha_list = IHA.objects.all()
     return render(request, 'ihaLists.html', {'iha_list': iha_list})
 
-
+#Eğer giriş yapan süper kullanıcı ise ihaları düzenleme ve silme yetkisi verildi
+#Normal kullanıcı ise sadece kiralama yetkisi verildi.
 @login_required(login_url='login')
 def iha_details(request, iha_id):
-    # iha_name = IHA.objects.get(id=iha_id)
-    return render(request, 'ihaDetails.html', {'iha_id': iha_id})
+    if request.user.is_superuser:
+        # Süper kullanıcıya özel şablon
+        template = 'ihaDetails.html'
+    else:
+        # Diğer kullanıcılara özel şablon
+        template = 'ihaDetails_customer.html'
+
+    return render(request, template, {'iha_id': iha_id})
 
 
 def kiralama_sayfasi(request, iha_id):
@@ -152,8 +139,6 @@ def edit_iha(request, iha_id):
 
 # KİRALAMA İŞLEMLERİ HAKKINDA EDİT; DELETE ; LİST İŞLEMLERİ
 
-from django.shortcuts import redirect, render, get_object_or_404
-from .models import Kiralama, KiralamaGecmisi
 
 def delete_rental(request, kiralama_id):
     kiralama = get_object_or_404(Kiralama, id=kiralama_id)
@@ -202,6 +187,7 @@ def orders(request, user_id):
     user_orders = Kiralama.objects.filter(kiralayan_id=user_id)
     return render(request, 'orders.html', {'kiralamalar': user_orders})
 
+
 # iha kiralama işlemleri
 
 
@@ -221,13 +207,17 @@ def register_view(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('login')  # Kayıt başarılıysa giriş sayfasına yönlendirme yapabilirsiniz
+            user = form.save()
+
+            # Oturum açma işlemi
+            login(request, user)
+
+            return redirect('iha-lists')  # Kayıt başarılıysa iha-lists sayfasına yönlendirme yapabilirsiniz
     else:
         form = UserRegisterForm()
     return render(request, 'register.html', {'form': form})
 
+
 def logout_view(request):
     logout(request)
     return render(request, "ihaLists.html", {})
-

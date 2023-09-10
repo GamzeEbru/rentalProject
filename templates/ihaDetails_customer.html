@@ -1,0 +1,83 @@
+{% include 'partials/_navbar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/style.css"> <!-- CSS dosyasının yolu ayarlanmalı -->
+    <meta name="csrf-token" content="{{ csrf_token }}">
+
+    <style>
+        /* İçeriğin üst ve alt kısmına 20 piksel iç içe boşluk ver */
+        #container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        /* Kirala butonu yeşil olsun ve kenarları yumuşatılsın */
+        #kiralama-button {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px; /* Kenarları yumuşatma */
+            margin-top: 20px;
+        }
+    </style>
+    <title>İHA Detayları</title>
+</head>
+<body>
+    <div id="container">
+        <h1>İHA Detayları</h1>
+        <div id="iha-details" data-iha-id="{{ iha_id }}" style="margin-top: 30px;">
+            <!-- İHA detayları -->
+        </div>
+        <button id="kiralama-button">Kirala</button>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            const ihaId = '{{ iha_id }}';
+            $.ajax({
+                type: 'GET',
+                url: '/api/ihalar/{{ iha_id }}/',
+                success: function (data) {
+                    var ihaDetailsHTML = '<strong>Marka:</strong> ' + data.marka + '<br><br>' +
+                        '<strong>Model:</strong> ' + data.model + '<br><br>' +
+                        '<strong>Ağırlık:</strong> ' + data.agirlik + '<br><br>' +
+                        '<strong>Kategori:</strong> ' + data.kategori + '<br><br>';
+
+                    if (data.kiralama_durumu) {
+                        ihaDetailsHTML += '<span style="color: red;">!! KİRALAMAYA UYGUN DEĞİLDİR !!</span>';
+                        // Kiralamaya uygun değilse "Kirala" butonunu gizle
+                        $('#kiralama-button').hide();
+                    }
+
+                    // HTML içeriğini görüntüle
+                    $('#iha-details').html(ihaDetailsHTML);
+                },
+                error: function () {
+                    // Hata durumunda yapılacak işlemler
+                    alert('İHA detayları alınırken bir hata oluştu.');
+                }
+            });
+
+            // Kirala butonuna tıklama işlemi
+            $(document).on('click', '#kiralama-button', function () {
+                const ihaId = '{{ iha_id }}';
+
+                // Kiralama sayfasına yönlendirme
+                window.location.href = `/kiralama_sayfasi/${ihaId}/`;
+            });
+            // Kirala butonuna tıklama işlemi
+            $(document).on('click', '#kiralama-button', function () {
+                const ihaId = '{{ iha_id }}';
+
+                // Kiralama sayfasına yönlendirme
+                window.location.href = `/kiralama_sayfasi/${ihaId}/`;
+            });
+
+        });
+    </script>
+</body>
+</html>
