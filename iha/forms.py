@@ -71,4 +71,10 @@ class IHAEditForm(forms.ModelForm):
 class KiralamaForm(forms.ModelForm):
     class Meta:
         model = Kiralama
-        fields = '__all__'  # Tüm alanları kullanmak isterseniz
+        fields = '__all__'  # Tüm alanları
+
+
+class KiralamaUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Kiralama
+        fields = ['kiralama_baslangic', 'kiralama_bitis']
