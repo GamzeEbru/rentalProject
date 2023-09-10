@@ -1,4 +1,3 @@
-{% include 'partials/_navbar.html' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,14 +47,14 @@
     </style>
 </head>
 <body>
-    <h1>Edit IHA</h1>
+    <h1>İHA'YI DÜZENLE</h1>
 
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Save</button>
+        <button type="submit">KAYDET</button>
     </form>
 
-    <a href="{% url 'iha-lists' %}">Back to IHA List</a>
+    <a href="{% url 'iha-lists' %}">İHA Listelerine Geri Dön</a>
 </body>
 </html>

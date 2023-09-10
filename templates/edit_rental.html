@@ -5,6 +5,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
     <link rel="stylesheet" type="text/css" href="/static/style.css"> <!-- CSS dosyasının yolu ayarlanmalı -->
     <style>
         /* İçeriğin üst ve alt kısmına 20 piksel iç içe boşluk ver */
@@ -33,20 +37,33 @@
 <body>
     <div id="container">
         <h1>Kiralama Düzenleme</h1>
-        <form method="POST">
+        <form class="form-group" method="POST">
             {% csrf_token %}
-            <div class="form-field">
-                {{ form.kiralama_baslangic.label_tag }}
-                {{ form.kiralama_baslangic }}
-            </div>
-            <div class="form-field">
-                {{ form.kiralama_bitis.label_tag }}
-                {{ form.kiralama_bitis }}
-            </div>
-            <div class="form-field">
-                {{ form.kiralayan.label_tag }}
-                {{ form.kiralayan }}
-            </div>
+        <div class="form-field">
+            {{ form.kiralama_baslangic.label_tag }}
+            {{ form.kiralama_baslangic }}
+            <script>
+                // datepicker
+                $(function () {
+                    $("#id_kiralama_baslangic").datepicker({
+                        dateFormat: "yy-mm-dd",
+                    });
+                });
+            </script>
+        </div>
+        <div class="form-field">
+            {{ form.kiralama_bitis.label_tag }}
+            {{ form.kiralama_bitis }}
+            <script>
+                // datepicker
+                $(function () {
+                    $("#id_kiralama_bitis").datepicker({
+                        dateFormat: "yy-mm-dd",
+                    });
+                });
+            </script>
+        </div>
+
             <button id="edit-button" type="submit">Düzenlemeyi Kaydet</button>
         </form>
     </div>

@@ -2,7 +2,7 @@ from datetime import datetime
 from django.contrib.auth import login
 from django.contrib import messages
 from rest_framework import viewsets
-from .forms import IHAEkleForm, IHAEditForm, KiralamaForm
+from .forms import IHAEkleForm, IHAEditForm, KiralamaForm, KiralamaUpdateForm
 from .models import IHA, Kiralama, KiralamaGecmisi
 from .serializers import IHASerializer, KiralamaSerializer
 from django.contrib.auth.decorators import login_required
@@ -16,6 +16,7 @@ from django.contrib.auth import (
     get_user_model,
 )
 from .forms import UserLoginForm, UserRegisterForm
+from django.core.exceptions import ValidationError
 
 
 class IHAViewSet(viewsets.ModelViewSet):
@@ -170,15 +171,32 @@ def delete_rental(request, kiralama_id):
 def edit_rental(request, kiralama_id):
     kiralama = get_object_or_404(Kiralama, pk=kiralama_id)
     if request.method == 'POST':
-        form = KiralamaForm(request.POST, instance=kiralama)
-        if form.is_valid():
-            form.save()
-            return redirect('iha-lists')  # İHA listesine geri dön
+        form = KiralamaUpdateForm(request.POST, instance=kiralama)
+        try:
+            if form.is_valid():
+                # Kiralama aralığı kontrolü
+                yeni_kiralama_baslangic = form.cleaned_data['kiralama_baslangic']
+                yeni_kiralama_bitis = form.cleaned_data['kiralama_bitis']
+
+                # Aynı IHA cihazı için başka kiralama işlemlerini al
+                eski_kiralama_islemleri = Kiralama.objects.filter(
+                    iha=kiralama.iha,
+                    kiralama_baslangic__lte=yeni_kiralama_bitis,
+                    kiralama_bitis__gte=yeni_kiralama_baslangic
+                ).exclude(pk=kiralama_id)
+
+                if eski_kiralama_islemleri.exists():
+                    raise ValidationError('Bu tarih aralığında IHA cihazı zaten kiralanmış.')
+
+                form.save()
+                return redirect('iha-lists')  # İHA listesine geri dön
+        except ValidationError as e:
+            form.add_error(None, e.message)  # Hata mesajını forma ekleyin
+
     else:
-        form = KiralamaForm(instance=kiralama)
+        form = KiralamaUpdateForm(instance=kiralama)
 
     return render(request, 'edit_rental.html', {'form': form, 'kiralama': kiralama})
-
 
 # Kullanıcının satın almalarını görüntüleme
 
@@ -220,4 +238,4 @@ def register_view(request):
 
 def logout_view(request):
     logout(request)
-    return render(request, "ihaLists.html", {})
+    return render(request, "login.html", {})

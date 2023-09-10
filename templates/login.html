@@ -1,8 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">   <!-- CSS dosyasının yolu ayarlanmalı -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type= "text/css" href="{% static 'bootstrap/css/bootstrap.css' %}">
 
     <!-- İsterseniz başlık ve stil ekleyebilirsiniz -->
     <title>Giriş Yap</title>
@@ -16,45 +18,12 @@
             min-height: 100vh;
         }
 
-        /* Formu stilize et */
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px; /* Giriş alanları arasındaki boşluğu ayarlar */
-        }
 
-        /* Input alanlarını büyüt ve oranlı tut */
-        label, input {
-            font-size: 18px;
-            width: 100%;
-            margin-bottom: 20px;
-            margin-top: 20px;
-        }
-
-        /* Düğmeyi stilize et */
-        button {
-            background-color: green;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 18px;
-        }
-
-        /* Inputların boyutunu aynı yap */
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 10px; /* İstenilen boyutu ayarlayın */
-            font-size: 16px; /* İstenilen boyutu ayarlayın */
-        }
     </style>
 </head>
 <body>
-    <h1>Giriş Yap</h1>
+    <h3 class="mb-5">İHA KİRALAMA PORTALI</h3>
 
-    <!-- Giriş formunu oluştur -->
     <form method="post" onsubmit="logIn()">
         {% csrf_token %}
         {% if messages %}
@@ -64,19 +33,21 @@
                 </div>
             {% endfor %}
         {% endif %}
-        <div>
-            <label for="id_username">Kullanıcı Adı:</label>
-            <input type="text" id="id_username" name="username">
-        </div>
-        <div>
-            <label for="id_password">Parola:</label>
-            <input type="password" id="id_password" name="password">
-        </div>
-        <button type="submit">Giriş Yap</button>
+
+      <div class="form-group">
+        <label for="id_username">Kullanıcı Adı</label>
+        <input type="text" class="form-control" id="id_username" name="username"  placeholder="Enter Name">
+      </div>
+      <div class="form-group">
+        <label for="id_password">Parola</label>
+        <input type="password" class="form-control" id="id_password" name="password" placeholder="Password">
+      </div>
+      <button type="submit" class="btn btn-primary">Giriş Yap</button>
     </form>
 
+
     <!-- Kullanıcı kayıtlı değilse kayıt sayfasına yönlendirme bağlantısı -->
-    <p>Hesabınız yok mu? <a href="{% url 'register' %}">Kayıt Ol</a></p>
+    <p class="mt-3">Hesabınız yok mu? <a href="{% url 'register' %}">Kayıt Ol</a></p>
 
     <script>
         function logIn() {
