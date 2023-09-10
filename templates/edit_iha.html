@@ -1,0 +1,61 @@
+{% include 'partials/_navbar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit IHA</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* Formu ortala ve giriş alanlarını eşit olarak hizala */
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px; /* Giriş alanları arasındaki boşluğu ayarlar */
+        }
+
+        /* Düzenleme düğmesini stilize et */
+        button {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 12px 24px; /* Düğme boyutunu ayarlar */
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px; /* Yazı boyutunu ayarlar */
+            margin-bottom: 20px;
+        }
+
+        /* Giriş alanlarını büyüt */
+        input[type="text"], input[type="password"], select {
+            font-size: 16px; /* Yazı boyutunu ayarlar */
+            padding: 10px; /* Giriş alanlarının iç boşluğunu ayarlar */
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        /* Etiketleri büyüt */
+        label {
+            font-size: 16px; /* Yazı boyutunu ayarlar */
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit IHA</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+
+    <a href="{% url 'iha-lists' %}">Back to IHA List</a>
+</body>
+</html>

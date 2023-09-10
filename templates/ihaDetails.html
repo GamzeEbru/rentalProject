@@ -1,0 +1,142 @@
+{% include 'partials/_navbar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/style.css"> <!-- CSS dosyasının yolu ayarlanmalı -->
+    <meta name="csrf-token" content="{{ csrf_token }}">
+
+    <style>
+        /* İçeriğin üst ve alt kısmına 20 piksel iç içe boşluk ver */
+        #container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        /* Düzenle butonu turuncu olsun ve kenarları yumuşatılsın */
+        #edit-button {
+            background-color: orange;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px; /* Kenarları yumuşatma */
+            margin-top: 20px; /* Sağa 10 piksel boşluk bırakma */
+        }
+
+        /* Sil butonu kırmızı olsun ve kenarları yumuşatılsın */
+        #delete-button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px; /* Kenarları yumuşatma */
+            margin-left: 20px; /* Sağa 10 piksel boşluk bırakma */
+            margin-top: 20px;
+        }
+
+        /* Kirala butonu yeşil olsun ve kenarları yumuşatılsın */
+        #kiralama-button {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px; /* Kenarları yumuşatma */
+            margin-top: 20px;
+        }
+
+
+    </style>
+    <title>İHA Detayları</title>
+</head>
+
+<body>
+    <div id="container">
+        <h1>İHA Detayları</h1>
+        <div id="iha-details" data-iha-id="{{ iha_id }}" style="margin-top: 30px;">
+            <!-- İHA detayları -->
+        </div>
+        <button id="edit-button">Düzenle</button>
+        <button id="delete-button">Sil</button>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            const ihaId = '{{ iha_id }}';
+            $.ajax({
+                type: 'GET',
+                url: '/api/ihalar/{{ iha_id }}/',
+                success: function (data) {
+                    var ihaDetailsHTML = '<strong>Marka:</strong> ' + data.marka + '<br><br>' +
+                        '<strong>Model:</strong> ' + data.model + '<br><br>' +
+                        '<strong>Ağırlık:</strong> ' + data.agirlik + '<br><br>' +
+                        '<strong>Kategori:</strong> ' + data.kategori + '<br><br>'; // İki <br> ekledik
+
+
+                        // Kiralama bitiş tarihini alın ve HTML'e ekleyin
+                        var kiralamaBitisTarihi = data.kiralama_bitis;
+                        $('#kiralama-bitis-tarihi').text(kiralamaBitisTarihi);
+
+
+                    if (data.kiralama_durumu) {
+                        ihaDetailsHTML += '<span style="color: red;">!! KİRALAMAYA UYGUN DEĞİLDİR (' + kiralamaBitisTarihi + ') !!</span>';
+                    }
+                    else {
+                        ihaDetailsHTML += '<button id="kiralama-button">Kirala</button>';
+                    }
+
+                    // HTML içeriğini görüntüle
+                    $('#iha-details').html(ihaDetailsHTML);
+                },
+
+                error: function () {
+                    // Hata durumunda yapılacak işlemler
+                    alert('İHA detayları alınırken bir hata oluştu.');
+                }
+            });
+
+            // Edit düğmesine tıklama işlemi
+            $(document).on('click', '#edit-button', function () {
+                // İlgili düzenleme sayfasına yönlendirme
+                window.location.href = '/edit_iha/' + ihaId + '/';
+            });
+
+            // Delete düğmesine tıklama işlemi
+            $(document).on('click', '#delete-button', function () {
+                const csrfToken = $('meta[name="csrf-token"]').attr('content');
+                // Silme işlemi için bir onay penceresi göster
+                if (confirm("Bu İHA'yı silmek istediğinize emin misiniz?")) {
+                    // İlgili silme işlemini gerçekleştirmek için AJAX isteği yapabilirsiniz
+                    $.ajax({
+                        type: 'DELETE',
+                        url: '/api/ihalar/{{ iha_id }}/',
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("X-CSRFToken", csrfToken);  // csrfToken değişkenini doğru şekilde ayarlayın
+                        },
+                        success: function () {
+                            // Silme işlemi başarılı ise sayfayı yeniden yükle veya başka bir işlem yapabilirsiniz
+                            alert('İHA başarıyla silindi.');
+                            window.location.href = '/iha-lists/';  // Örneğin, İHA listesine geri dönme
+                        },
+                        error: function () {
+                            // Silme işlemi başarısız ise kullanıcıya hata mesajı göster
+                            alert('İHA silinirken bir hata oluştu.');
+                        }
+                    });
+                }
+            });
+           // Kirala butonuna tıklama işlemi
+            $(document).on('click', '#kiralama-button', function () {
+                const ihaId = '{{ iha_id }}';
+
+                // Kiralama sayfasına yönlendirme
+                window.location.href = `/kiralama_sayfasi/${ihaId}/`;
+            });
+
+
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+{% load static %}
+{% include 'partials/_navbar.html' %}
+{% csrf_token %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <title>Siparişlerim</title>
+    <style>
+        #container{
+            margin-top: 30px;
+        }
+        #confirmation-dialog {
+            display: none;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+
+    </style>
+</head>
+<body>
+    <!-- Modal Penceresi -->
+    <div id="confirmation-dialog" title="Kiralama İptali">
+        <p>Kiralama işlemini iptal etmek istediğinize emin misiniz?</p>
+    </div>
+    <div id="container">
+        <h1>Kiralamalarım</h1>
+        <table id="siparisler-table" class="display">
+            <thead>
+                <tr>
+                    <th>Kiralama Başlangıç</th>
+                    <th>Kiralama Bitiş</th>
+                    <th>İHA Adı</th>
+                    <th>İHA Modeli</th>
+                    <th>İşlemler</th>
+
+                    <!-- Diğer sipariş bilgilerini buraya ekleyebilirsiniz -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for siparis in kiralamalar %}
+                    <tr>
+                        <td>{{ siparis.kiralama_baslangic }}</td>
+                        <td>{{ siparis.kiralama_bitis }}</td>
+                        <td>{{ siparis.iha.marka }}</td>
+                        <td>{{ siparis.iha.model }}</td>
+
+                        <td>
+                            <button class="cancel-button trigger-modal" data-siparis-id="{{ siparis.id }}">Kiralama İptal</button>
+                        </td>
+
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4">Henüz sipariş verilmemiş.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#siparisler-table').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Turkish.json"
+                }
+            });
+
+            // "Kiralama İptal" düğmesine tıklama işlemi
+            $('#siparisler-table').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Turkish.json"
+        }
+    });
+
+    // "Kiralama İptal" düğmesine tıklama işlemi
+    $('#siparisler-table tbody').on('click', '.cancel-button', function () {
+        var $button = $(this);
+        var siparisId = $button.data('siparis-id');
+
+        // Sayfa üzerindeki CSRF belirteci alınır
+        var csrfToken = $('[name=csrfmiddlewaretoken]').val();
+
+        // Onay modalı aç
+        $("#confirmation-dialog").dialog({
+            modal: true,
+            buttons: {
+                "Evet": function () {
+                    // AJAX isteği gönderme
+                    $.ajax({
+                        url: '/delete_rental/' + siparisId + '/',
+                        method: 'POST',
+                        dataType: 'json',
+                        headers: {
+                            'X-CSRFToken': csrfToken
+                        },
+                        success: function (data) {
+                            console.log('Kiralama başarıyla iptal edildi.');
+                            location.reload();
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Kiralama iptali sırasında bir hata oluştu: ' + error);
+                        }
+                    });
+
+                    $(this).dialog("close");
+                },
+                "Hayır": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+
+    });
+        });
+
+
+    </script>
+</body>
+</html>

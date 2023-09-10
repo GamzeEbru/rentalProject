@@ -1,0 +1,96 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- İsterseniz başlık ve stil ekleyebilirsiniz -->
+        <title>Kayıt Ol</title>
+        <style>
+            /* Sayfa içeriğini ortala */
+            body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+            }
+
+            /* Formu stilize et */
+            form {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px; /* Giriş alanları arasındaki boşluğu ayarlar */
+                max-width: 400px; /* Formun en fazla genişliği */
+                padding: 20px;
+                border: 1px solid #ccc;
+                border-radius: 10px;
+            }
+
+            /* Input alanlarını büyüt ve oranlı tut */
+            label, input {
+                font-size: 18px;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            /* Düğmeyi stilize et */
+            button {
+                background-color: green;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                cursor: pointer;
+                border-radius: 5px;
+                font-size: 18px;
+            }
+
+            /* Hata mesajlarını stilize et */
+            .error-message {
+                color: red;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Kayıt Ol</h1>
+
+        <!-- Kayıt formunu oluştur -->
+        <form method="POST" action="{% url 'register' %}">
+            {% csrf_token %}
+            <div>
+                <label id="id_username">Kullanıcı Adı:</label>
+                <label for="id_username"></label><input type="text" id="id_username" name="username" >
+            </div>
+            <div>
+                <label id="id_email">E-Posta:</label>
+                <label for="id_email"></label><input type="email" id="id_email" name="email" >
+            </div>
+            <div>
+                <label id="id_password1">Parola:</label>
+                <label for="id_password1"></label><input type="password" id="id_password1" name="password1" >
+            </div>
+            <div>
+                <label id="id_password2">Parolayı Onayla:</label>
+                <label for="id_password2"></label><input type="password" id="id_password2" name="password2" >
+            </div>
+            <button type="submit">Kayıt Ol</button>
+        </form>
+
+        <!-- Zaten bir hesabınız varsa giriş sayfasına yönlendirme bağlantısı -->
+        <p>Zaten bir hesabınız var mı? <a href="{% url 'login' %}">Giriş Yap</a></p>
+
+        <!-- Form hataları için mesajları gösterme -->
+        {% if form.errors %}
+            <div class="error-message">
+                <strong>Formda hatalar var:</strong>
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ field.label }}: {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </body>
+    </html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% include 'partials/_navbar.html' %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/style.css"> <!-- CSS dosyasının yolu ayarlanmalı -->
+    <style>
+        /* İçeriğin üst ve alt kısmına 20 piksel iç içe boşluk ver */
+        #container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Form alanlarını düzenlemek için özelleştirme yapabilirsiniz */
+        .form-field {
+            margin-bottom: 10px;
+        }
+
+        /* Düzenleme düğmesini stilize edebilirsiniz */
+        #edit-button {
+            background-color: orange;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+    <title>Kiralama Düzenleme</title>
+</head>
+<body>
+    <div id="container">
+        <h1>Kiralama Düzenleme</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-field">
+                {{ form.kiralama_baslangic.label_tag }}
+                {{ form.kiralama_baslangic }}
+            </div>
+            <div class="form-field">
+                {{ form.kiralama_bitis.label_tag }}
+                {{ form.kiralama_bitis }}
+            </div>
+            <div class="form-field">
+                {{ form.kiralayan.label_tag }}
+                {{ form.kiralayan }}
+            </div>
+            <button id="edit-button" type="submit">Düzenlemeyi Kaydet</button>
+        </form>
+    </div>
+</body>
+</html>

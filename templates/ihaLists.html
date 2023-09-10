@@ -1,0 +1,88 @@
+{% load static %}
+{% include 'partials/_navbar.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dataTables.min.css' %}">
+    <script type="text/javascript" charset="utf8" src="{% static 'js/dataTables.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="/static/style.css"> <!-- CSS dosyasının yolu ayarlanmalı -->
+    <style>
+
+            button.details {
+                background-color: green; /* Butonun arka plan rengi yeşil */
+                color: white; /* Metin rengi beyaz */
+                border: none; /* Kenar çizgisi olmasın */
+                padding: 5px 10px; /* Düğme içeriği ile kenar arasındaki boşluğu ayarla */
+                border-radius: 5px; /* Kenarları yumuşat */
+                cursor: pointer; /* Üzerine gelindiğinde işaretçi el simgesi olsun */
+            }
+
+            /* İncele butonunun hover (üzerine gelindiğinde) stili */
+            button.details:hover {
+                background-color: darkgreen; /* Üzerine gelindiğinde arka plan rengini değiştir */
+            }
+            /* Navbar ana stil */
+
+
+    </style>
+    <title>İHA Listesi</title>
+</head>
+<body>
+    <div id="container">
+        <h1>İHA Listesi</h1>
+            <!-- Yeni uçak ekleme bağlantısı -->
+            <button style="color: white; background-color: lightseagreen; width: 100px; height: 50px" onclick="window.location.href = '{% url 'add_iha' %}';">Yeni İHA Ekle</button>
+
+        <table id="ihaTable" class="display">
+            <thead>
+                <tr>
+                    <th>İHA MARKASI</th>
+                    <th>İHA MODELİ</th>
+                    <th>İncele</th> <!-- İncele butonu sütunu eklendi -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for iha in iha_list %}
+                    <tr data-id="{{ iha.id }}">
+                        <td>{{ iha.marka }}</td>
+                        <td>{{ iha.model }}</td>
+                        <td><button  class="details" data-id="{{ iha.id }}">İncele</button></td> <!-- İncele butonu eklendi -->
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script>
+    $(document).ready(function () {
+        var table = $('#ihaTable').DataTable({
+            "ajax": {
+                "url": "/api/ihalar/", // Verilerin çekileceği URL
+                "dataSrc": "" // JSON verilerin kök düzeyinde olduğunu belirtin
+            },
+            "columns": [
+                {"data": "marka"},
+                {"data": "model"},
+                {"data": null, // İncele butonu sütunu
+                    "defaultContent": '<button class="details">İncele</button>' // İncele butonunun içeriği
+                }
+            ]
+        });
+
+        // Add a click event handler for the "İncele" buttons
+        $('#ihaTable tbody').on('click', 'button.details', function () {
+            var data = table.row($(this).closest('tr')).data();
+            var ihaId = data.id; // Assuming "id" is the attribute containing the UAV's ID
+            var detailUrl = "/iha-details/" + ihaId + "/"; // Construct the detail page URL
+            console.log((detailUrl))
+            // Redirect to the detail page
+            window.location.href = detailUrl;
+        });
+    });
+</script>
+
+</body>
+</html>

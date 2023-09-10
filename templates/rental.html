@@ -1,0 +1,76 @@
+{% include 'partials/_navbar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <title>Kiralama İşlemi</title>
+    <style>
+        /* Giriş alanlarını alt alta sıralama */
+        input[type="datetime-local"],
+        input[type="hidden"] {
+            width: 100%; /* Giriş alanlarını formun genişliğine sığacak şekilde genişletin */
+            padding: 5px; /* Giriş alanlarının iç boşluğunu ayarlayın */
+            margin-bottom: 10px; /* Giriş alanları arasında bir boşluk bırakın */
+            border: 1px solid #ccc; /* Giriş alanlarına bir kenarlık ekleyin */
+            border-radius: 3px; /* Giriş alanlarının köşelerini yuvarlayın */
+            display: block; /* Giriş alanlarını alt alta sıralayın */
+        }
+    </style>
+</head>
+<body>
+    <h1>Kiralama İşlemi</h1>
+
+    <form id="kiralama-form" method="POST" action="{% url 'iha_rental' iha_id %}/">
+        {% csrf_token %}
+        <label for="baslangic">Kiralama Başlangıç Tarihi:</label>
+        <input type="datetime-local" id="baslangic" name="baslangic_tarihi" required>
+
+        <label for="bitis">Kiralama Bitiş Tarihi:</label>
+        <input type="datetime-local" id="bitis" name="bitis_tarihi" required>
+
+        <input type="hidden" id="kiralayan" name="kiralayan" value="{{ user_id }}"> {# Kullanıcı ID'sini oturumdan alın #}
+
+        <input style="background-color: green" type="submit" value="Kiralama Yap">
+    </form>
+
+    <script>
+    $('#kiralama-form').submit(function (event) {
+        event.preventDefault();
+
+        var baslangicTarihi = $('#baslangic').val();
+        var bitisTarihi = $('#bitis').val();
+        var kiralayan = $('#kiralayan').val();
+        var ihaId = {{ iha_id }}; // Django tarafından temin edilen iha_id değeri
+        var csrfToken = $('[name="csrfmiddlewaretoken"]').val();
+
+        var kiralamaVeri = {
+            'baslangic_tarihi': baslangicTarihi,
+            'bitis_tarihi': bitisTarihi,
+            'kiralayan': kiralayan,
+            'iha_id': ihaId, // Veriyi JSON olarak ileteceğiz
+            'csrfmiddlewaretoken': csrfToken
+        };
+
+        // AJAX isteği gönder
+        $.ajax({
+            type: 'POST',
+            url: '{% url "iha_rental" iha_id %}', // iha_rental URL'sini kullanın
+            data: kiralamaVeri,
+            success: function (data) {
+                // Başarılı cevap alındığında burada işlem yapabilirsiniz
+                alert(data.message);
+                // İsteğe bağlı olarak sayfa yenileme veya başka bir işlem yapabilirsiniz
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                // Hata durumunda burada işlem yapabilirsiniz
+                alert('İHA kiralanırken bir hata oluştu.');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

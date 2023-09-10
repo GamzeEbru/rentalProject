@@ -1,0 +1,82 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Yap</title>
+
+    <style>
+        /* Navbar ana stil */
+        .navbar {
+            background-color: #3498db; /* Arka plan rengi */
+            color: white; /* Metin rengi */
+            padding: 10px 0; /* Boşluklar */
+        }
+
+        /* Navbar içerik container'ı */
+        .navbar-container {
+            max-width: 1200px; /* Maksimum genişlik */
+            margin: 0 auto; /* Ortala */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px; /* Boşluklar */
+        }
+
+        /* Navbar sol taraf (logo) */
+        .navbar-left {
+            font-size: 24px;
+        }
+
+        /* Navbar sağ taraf (kullanıcı adı ve giriş/çıkış bağlantıları) */
+        .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-username {
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        .navbar-logout,
+        .navbar-login {
+            background-color: #e74c3c; /* Düğme arka plan rengi */
+            color: white; /* Düğme metin rengi */
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 18px;
+            text-decoration: none; /* Link görünümü kaldır */
+            margin-left: 10px;
+        }
+
+        .navbar-logout:hover,
+        .navbar-login:hover {
+            background-color: #c0392b; /* Hover durumunda arka plan rengi */
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <a href="{% url 'iha-lists' %}" class="navbar-logo">IHA Listesi</a>
+            </div>
+            <div class="navbar-right">
+                {% if user.is_authenticated %}
+                    <span class="navbar-username">Hoş geldiniz, {{ user.username }}!</span>
+                    <a href="{% url 'logout' %}" class="navbar-logout">Çıkış Yap</a>
+                    <a href="{% url 'orders' user.id %}" class="navbar-login">Kiralamalarım</a> {# Kullanıcının ID'sini orders sayfasına gönder #}
+                {% else %}
+                    <a href="{% url 'login' %}" class="navbar-login">Giriş Yap</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+</body>
+</html>

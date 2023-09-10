@@ -1,0 +1,138 @@
+/* Sayfa içeriği için temel stil */
+#container {
+    text-align: center; /* İçeriği ortala */
+}
+
+/* İHA listesi için stil */
+#iha-list {
+    list-style: none; /* Madde işaretlerini kaldır */
+    padding: 0;
+    text-align: center; /* İçeriği ortala */
+}
+
+#iha-list li {
+    margin: 0 auto; /* İHA öğesini yatayda ortala */
+    margin-bottom: 20px; /* Her İHA öğesi arasında boşluk bırak */
+    border: 1px solid #ccc; /* İHA öğelerini sınırlarla ayır */
+    padding: 10px;
+    background-color: #f7f7f7; /* İHA öğeleri arkaplan rengi */
+    max-width: 400px; /* İçerik maksimum genişlik belirle */
+    display: inline-block; /* İHA öğelerini yan yana sırala */
+}
+
+#iha-list li + li {
+    margin-left: 20px; /* İHA öğeleri arasında belirli bir boşluk bırak */
+}
+
+#iha-list li strong {
+    font-weight: bold; /* İHA özellikleri için kalın yazı stili */
+}
+/* Düğme stilleri */
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+/* Başlık stilleri */
+h1 {
+    font-size: 24px;
+    color: #333;
+}
+#container {
+    text-align: center;
+    margin: 0 auto;
+    max-width: 800px; /* İsteğe bağlı olarak maksimum genişliği ayarlayabilirsiniz */
+}
+
+#ihaTable {
+    width: 100%;
+}
+
+/* style.css */
+
+/* Genel stil ayarları */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center; /* Sayfayı ortala */
+}
+
+#container {
+    max-width: 800px; /* İçeriği maksimum 800 piksele sınırla */
+    margin: 0 auto; /* İçeriği yatayda ortala */
+    padding: 20px;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+
+
+/* İHA detayları stil ayarları */
+#iha-details {
+    font-size: 16px; /* İHA detayları yazılarını büyüt */
+    margin-top: 20px;
+}
+
+/* Kiralama düğmesi stil ayarları */
+#kiralama-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff; /* Mavi renk */
+    color: #fff; /* Beyaz renk */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#kiralama-button:hover {
+    background-color: #0056b3; /* Hover durumunda renk değiştirme */
+}
+
+/* Formun genel stilini özelleştirme */
+#kiralama-form {
+    margin: 20px; /* Formun etrafında bir boşluk bırakın */
+    padding: 10px; /* Form içeriğinin etrafında iç boşluk bırakın */
+    border: 1px solid #ccc; /* Forma bir kenarlık ekleyin */
+    border-radius: 5px; /* Formun köşelerini yuvarlayın */
+    background-color: #f8f8f8; /* Formun arkaplan rengini ayarlayın */
+    width: 300px; /* Formun genişliğini ayarlayın */
+}
+
+/* Etiketleri özelleştirme */
+label {
+    display: block; /* Etiketleri blok element olarak görüntüleyin (alt alta) */
+    margin-bottom: 5px; /* Etiketler arasında bir boşluk bırakın */
+    font-weight: bold; /* Etiketleri kalın yapın */
+}
+
+/* Formun genel stilini özelleştirme */
+#kiralama-form {
+    margin: 20px auto; /* Formu yatayda ortala ve dikeyde 20 piksel boşluk bırak */
+    padding: 10px; /* Form içeriğinin etrafında iç boşluk bırakın */
+    border: 1px solid #ccc; /* Forma bir kenarlık ekleyin */
+    border-radius: 5px; /* Formun köşelerini yuvarlayın */
+    background-color: #f8f8f8; /* Formun arkaplan rengini ayarlayın */
+    width: 300px; /* Formun genişliğini ayarlayın */
+    text-align: center; /* Form içeriğini yatayda ortala */
+}
+
+/* Giriş alanlarını özelleştirme */
+input[type="datetime-local"],
+input[type="hidden"] {
+    width: 100%; /* Giriş alanlarını formun genişliğine sığacak şekilde genişletin */
+    padding: 5px; /* Giriş alanlarının iç boşluğunu ayarlayın */
+    margin-bottom: 10px; /* Giriş alanları arasında bir boşluk bırakın */
+    border: 1px solid #ccc; /* Giriş alanlarına bir kenarlık ekleyin */
+    border-radius: 3px; /* Giriş alanlarının köşelerini yuvarlayın */
+    display: block; /* Giriş alanlarını alt alta sıralayın */
+    margin: 0 auto; /* Giriş alanlarını yatayda ortala */
+}
+
+
