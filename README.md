@@ -1,5 +1,7 @@
 # IHA RENTAL APP
 
+http://127.0.0.1:8000/iha-lists/ adresine giderek sistemi kullanmaya başlayabilirsiniz.
+
 ### Giriş yapan kullanıcının siparişlerini takip ekranı 
 [![N|Kiralamalarım](https://github.com/GamzeEbru/rentalProject/blob/main/static/img/Listrentals.png)](https://github.com/GamzeEbru/rentalProject/blob/main/static/img/Listrentals.png)
 
